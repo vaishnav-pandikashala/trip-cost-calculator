@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 550px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #dbeafe;
+    margin-bottom: 20px;
+}
+
+.card,
+.result {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    color: #1e293b;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+input[type="number"]:focus {
+    border-color: #2563eb;
+}
+
+.roundTrip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0;
+    font-weight: bold;
+}
+
+.roundTrip input {
+    width: 18px;
+    height: 18px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+button.reset {
+    background: #64748b;
+}
+
+button.reset:hover {
+    background: #475569;
+}
+
+.result {
+    display: block;
+}
+
+.result h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    color: #1e293b;
+}
+
+.result-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.result-box span {
+    color: #475569;
+}
+
+.result-box strong {
+    color: #0f172a;
+}
+
+.total {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 12px;
+    background: #dbeafe;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total strong {
+    font-size: 24px;
+    color: #1d4ed8;
+}
+
+.perPerson {
+    margin-top: 12px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+}
+
+.perPerson strong {
+    color: #16a34a;
+}
+
+footer {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+@media (max-width: 500px) {
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .card,
+    .result {
+        padding: 18px;
+    }
+
+    .total strong {
+        font-size: 20px;
+    }
+}

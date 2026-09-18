@@ -1,0 +1,843 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Running Cost Calculator</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                #6a11cb,
+                #2575fc,
+                #00c6ff
+            );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .header .icon {
+            font-size: 55px;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            margin: 5px 0;
+            font-weight: 800;
+        }
+
+        .header p {
+            font-size: 17px;
+            opacity: 0.9;
+        }
+
+        /* MAIN CARD */
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* LEFT SIDE */
+
+        .input-section h2,
+        .result-section h2 {
+            color: #172554;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 17px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 7px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input,
+        .input-box select {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+            background: #f8fafc;
+        }
+
+        .input-box input:focus,
+        .input-box select:focus {
+            border-color: #6366f1;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+        }
+
+        .unit {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        /* ROUND TRIP */
+
+        .round-trip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px;
+            border-radius: 12px;
+            background: linear-gradient(
+                90deg,
+                #ede9fe,
+                #dbeafe
+            );
+
+            margin-bottom: 18px;
+        }
+
+        .round-trip input {
+            width: 20px;
+            height: 20px;
+            accent-color: #6366f1;
+        }
+
+        .round-trip label {
+            font-weight: 700;
+            color: #312e81;
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calculate {
+            flex: 2;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #2563eb
+            );
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        }
+
+        .calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,0.4);
+        }
+
+        .reset {
+            flex: 1;
+            color: #334155;
+            background: #e2e8f0;
+        }
+
+        .reset:hover {
+            background: #cbd5e1;
+        }
+
+        /* RESULT SIDE */
+
+        .result-section {
+            background: linear-gradient(
+                145deg,
+                #f8fafc,
+                #eef2ff
+            );
+
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        .result-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 15px;
+            margin-bottom: 12px;
+
+            background: white;
+            border-radius: 13px;
+
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .result-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .blue {
+            background: #dbeafe;
+        }
+
+        .purple {
+            background: #ede9fe;
+        }
+
+        .orange {
+            background: #ffedd5;
+        }
+
+        .green {
+            background: #dcfce7;
+        }
+
+        .red {
+            background: #fee2e2;
+        }
+
+        .result-card span {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .result-card strong {
+            display: block;
+            color: #0f172a;
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+        /* TOTAL */
+
+        .total {
+            margin-top: 18px;
+            padding: 22px;
+
+            border-radius: 17px;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed,
+                #9333ea
+            );
+
+            color: white;
+
+            box-shadow: 0 10px 25px rgba(79,70,229,0.3);
+        }
+
+        .total p {
+            opacity: 0.85;
+            font-size: 14px;
+        }
+
+        .total h3 {
+            font-size: 36px;
+            margin-top: 4px;
+        }
+
+        /* PER PERSON */
+
+        .per-person {
+            margin-top: 12px;
+            padding: 17px;
+
+            border-radius: 14px;
+
+            background: linear-gradient(
+                135deg,
+                #dcfce7,
+                #bbf7d0
+            );
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: #166534;
+        }
+
+        .per-person strong {
+            font-size: 24px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .calculator {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .calculator {
+                padding: 18px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .total h3 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="main-container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="icon">🚗</div>
+
+        <h1>Trip Running Cost</h1>
+
+        <p>
+            Calculate your fuel cost, tolls and cost per person
+        </p>
+
+    </div>
+
+
+    <!-- CALCULATOR -->
+
+    <div class="calculator">
+
+        <!-- INPUT SECTION -->
+
+        <div class="input-section">
+
+            <h2>📝 Trip Details</h2>
+
+
+            <div class="input-group">
+
+                <label>Trip Distance</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="distance"
+                        placeholder="Enter distance"
+                    >
+
+                    <span class="unit">KM</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Vehicle Mileage</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="mileage"
+                        placeholder="Example: 18"
+                    >
+
+                    <span class="unit">KM/L</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Fuel Price</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="fuelPrice"
+                        placeholder="Example: 105"
+                    >
+
+                    <span class="unit">₹/L</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Passengers</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="passengers"
+                        value="1"
+                        min="1"
+                    >
+
+                    <span class="unit">👤</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Toll Charges</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="toll"
+                        value="0"
+                        min="0"
+                    >
+
+                    <span class="unit">₹</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Parking / Other Cost</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="number"
+                        id="other"
+                        value="0"
+                        min="0"
+                    >
+
+                    <span class="unit">₹</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="round-trip">
+
+                <input
+                    type="checkbox"
+                    id="roundTrip"
+                >
+
+                <label for="roundTrip">
+                    🔄 Round Trip
+                </label>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    class="calculate"
+                    onclick="calculateCost()"
+                >
+                    💰 Calculate Cost
+                </button>
+
+                <button
+                    class="reset"
+                    onclick="resetCalculator()"
+                >
+                    🔄 Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULT SECTION -->
+
+        <div class="result-section">
+
+            <h2>📊 Trip Summary</h2>
+
+
+            <div class="result-card">
+
+                <div class="result-left">
+
+                    <div class="result-icon blue">
+                        🛣️
+                    </div>
+
+                    <div>
+
+                        <span>Total Distance</span>
+
+                        <strong id="resultDistance">
+                            0 KM
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-left">
+
+                    <div class="result-icon purple">
+                        ⛽
+                    </div>
+
+                    <div>
+
+                        <span>Fuel Required</span>
+
+                        <strong id="fuelRequired">
+                            0 L
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-left">
+
+                    <div class="result-icon orange">
+                        💵
+                    </div>
+
+                    <div>
+
+                        <span>Fuel Cost</span>
+
+                        <strong id="fuelCost">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-left">
+
+                    <div class="result-icon red">
+                        🧾
+                    </div>
+
+                    <div>
+
+                        <span>Toll + Other</span>
+
+                        <strong id="extraCost">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="total">
+
+                <p>Total Trip Running Cost</p>
+
+                <h3 id="totalCost">
+                    ₹0
+                </h3>
+
+            </div>
+
+
+            <!-- PER PERSON -->
+
+            <div class="per-person">
+
+                <span>
+                    👥 Cost Per Person
+                </span>
+
+                <strong id="perPersonCost">
+                    ₹0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        🚗 Trip Running Cost Calculator • 2026
+    </footer>
+
+</div>
+
+
+<script>
+
+function calculateCost() {
+
+    let distance =
+        parseFloat(document.getElementById("distance").value);
+
+    let mileage =
+        parseFloat(document.getElementById("mileage").value);
+
+    let fuelPrice =
+        parseFloat(document.getElementById("fuelPrice").value);
+
+    let passengers =
+        parseInt(document.getElementById("passengers").value);
+
+    let toll =
+        parseFloat(document.getElementById("toll").value) || 0;
+
+    let other =
+        parseFloat(document.getElementById("other").value) || 0;
+
+    let roundTrip =
+        document.getElementById("roundTrip").checked;
+
+
+    if (
+        !distance ||
+        !mileage ||
+        !fuelPrice ||
+        !passengers
+    ) {
+
+        alert("⚠️ Please enter all required details.");
+
+        return;
+    }
+
+
+    /* ROUND TRIP */
+
+    if (roundTrip) {
+
+        distance = distance * 2;
+
+    }
+
+
+    /* FUEL CALCULATION */
+
+    let fuelRequired =
+        distance / mileage;
+
+
+    /* FUEL COST */
+
+    let fuelCost =
+        fuelRequired * fuelPrice;
+
+
+    /* EXTRA COST */
+
+    let extraCost =
+        toll + other;
+
+
+    /* TOTAL */
+
+    let totalCost =
+        fuelCost + extraCost;
+
+
+    /* PER PERSON */
+
+    let perPerson =
+        totalCost / passengers;
+
+
+    /* DISPLAY */
+
+    document.getElementById("resultDistance").innerText =
+        distance.toFixed(1) + " KM";
+
+
+    document.getElementById("fuelRequired").innerText =
+        fuelRequired.toFixed(2) + " L";
+
+
+    document.getElementById("fuelCost").innerText =
+        "₹" + fuelCost.toFixed(2);
+
+
+    document.getElementById("extraCost").innerText =
+        "₹" + extraCost.toFixed(2);
+
+
+    document.getElementById("totalCost").innerText =
+        "₹" + totalCost.toFixed(2);
+
+
+    document.getElementById("perPersonCost").innerText =
+        "₹" + perPerson.toFixed(2);
+
+}
+
+
+function resetCalculator() {
+
+    document.getElementById("distance").value = "";
+
+    document.getElementById("mileage").value = "";
+
+    document.getElementById("fuelPrice").value = "";
+
+    document.getElementById("passengers").value = "1";
+
+    document.getElementById("toll").value = "0";
+
+    document.getElementById("other").value = "0";
+
+    document.getElementById("roundTrip").checked = false;
+
+
+    document.getElementById("resultDistance").innerText =
+        "0 KM";
+
+    document.getElementById("fuelRequired").innerText =
+        "0 L";
+
+    document.getElementById("fuelCost").innerText =
+        "₹0";
+
+    document.getElementById("extraCost").innerText =
+        "₹0";
+
+    document.getElementById("totalCost").innerText =
+        "₹0";
+
+    document.getElementById("perPersonCost").innerText =
+        "₹0";
+}
+
+</script>
+
+</body>
+</html>
+```
